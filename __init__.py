@@ -107,8 +107,8 @@ def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images,te
             the sequence. 
         5. The respective emotion label for each sequence folder is inside emotion_path
         6. Parent directory of output_path exists
-        7. max_emotion_images is less length each sequence
-    Using this assumtions the method first get splits the sequences into train and test sequences. Then 
+        7. max_emotion_images is less than length each sequence
+    Using this assumtions the method first  splits the sequences into train and test sequences. Then 
     reads all sequence images. The method labels the first image in sequence as neutral and the last n
     (where n is max_emotion_images arg) images as label specified in Emotion folder for respective sequence. 
     Parameters

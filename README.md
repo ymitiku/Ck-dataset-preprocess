@@ -7,7 +7,7 @@ Some basic assumtions.
 * emotion label path is given using command line 
 * The subject folders are inside dataset path folder
 * The image sequences folders are inside subject folder
-* The names of images inside sequence folders have sequential number appened to common name all image inside that folder and this sequetial number is crosspond to frame number of the sequence. 
+* The names of images inside sequence folders have sequential number appened to common name of all image inside that folder and this sequetial number is crosspond to frame number of the sequence. 
 * The respective emotion label for each sequence folder is inside emotion label folder
 * Parent directory of output_path exists
 * Max_emotion_images is less than length each sequence
@@ -19,3 +19,5 @@ The module labels the first image in sequence as neutral and the last n (where n
 ```
 python . --dataset_path path-to-dataset --emotion_path path-to-emotion-labels-folder --output_path path-to-output-directory --max_emotion_images 4 --test_size 0.2
 ```
+
+Where ```dataset_path``` is path to ck+ image sequences, ```emotion_path``` is path to emotion labels of ck+ dataset, ```output_path``` is output folder for train and test case, max_emotion_images is maximum number of images to sample from given sequence and test_size is percentage of test dataset to be splitted.
