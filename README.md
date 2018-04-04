@@ -12,12 +12,16 @@ Some basic assumtions.
 * Parent directory of output_path exists
 * Max_emotion_images is less than length each sequence
     
-Using this assumtions the module first  splits the sequences into train and test sequences. Then reads all sequence images. 
-The module labels the first image in sequence as neutral and the last n (where n is max_emotion_images arg) images as label specified in Emotion folder for respective sequence.
+Using this assumtions the module first  splits the sequences into train and test sequences. If sequence argument is nto given reads all sequence images. The module labels the first image in sequence as neutral and the last n (where n is max_emotion_images arg) images as label specified in Emotion folder for respective sequence. But if sequence argument is given the module assumes only sequence split into train and test. 
 
 ## How to run the module 
+### To split the dataset to non sequence sets
 ```
-python . --dataset_path path-to-dataset --emotion_path path-to-emotion-labels-folder --output_path path-to-output-directory --max_emotion_images 4 --test_size 0.2
+python . --dataset_path path-to-dataset --emotion_path path-to-emotion-labels-folder --output_path path-to-output-directory --max_emotion_images 4 --test_size 0.2 
+```
+### To split the dataset to sequences 
+```
+python . --dataset_path path-to-dataset --emotion_path path-to-emotion-labels-folder --output_path path-to-output-directory --max_emotion_images 4 --test_size 0.2 --sequence True
 ```
 
 Where ```dataset_path``` is path to ck+ image sequences, ```emotion_path``` is path to emotion labels of ck+ dataset, ```output_path``` is output folder for train and test case, max_emotion_images is maximum number of images to sample from given sequence and test_size is percentage of test dataset to be splitted.

@@ -1,6 +1,7 @@
 import cv2
 import dlib 
 import os
+import shutil
 from sklearn.model_selection import train_test_split
 import numpy as np
 EMOTIONS = {
@@ -96,7 +97,7 @@ def split_ck_dataset_helper(sequences_path,emotion_path,output_path,detector,max
 
 
 
-def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images,test_size=0.2):
+def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images=0,test_size=0.2,sequence=False):
     """ Splits ck dataset into train and test datasets. The method makes the 
     following assumtions.
         1. The images sequence path is dataset_path
@@ -107,7 +108,7 @@ def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images,te
             the sequence. 
         5. The respective emotion label for each sequence folder is inside emotion_path
         6. Parent directory of output_path exists
-        7. max_emotion_images is less than length each sequence
+        7. max_emotion_images is less than length each sequence for non sequential split
     Using this assumtions the method first  splits the sequences into train and test sequences. Then 
     reads all sequence images. The method labels the first image in sequence as neutral and the last n
     (where n is max_emotion_images arg) images as label specified in Emotion folder for respective sequence. 
@@ -119,6 +120,8 @@ def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images,te
         Path to Emotion folder downloaded from official website of ck+ dataset
     output_path : str
         Output folder to save images
+    sequence : bool
+        If true this enables to split the dataset into train and test sequences.
     max_emotion_images
 
     """
@@ -137,6 +140,11 @@ def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images,te
         os.mkdir(os.path.join(output_path,"test"))
 
     
-
-    split_ck_dataset_helper(train_sequences_paths,emotion_path,os.path.join(output_path,"train"),detector,max_emotion_images)
-    split_ck_dataset_helper(test_sequences_paths,emotion_path,os.path.join(output_path,"test"),detector,max_emotion_images)
+    if not sequence:
+        split_ck_dataset_helper(train_sequences_paths,emotion_path,os.path.join(output_path,"train"),detector,max_emotion_images)
+        split_ck_dataset_helper(test_sequences_paths,emotion_path,os.path.join(output_path,"test"),detector,max_emotion_images)
+    else:
+        for s in train_sequences_paths:
+            shutil.copytree(os.path.join(sequences_path,s),os.path.join(output_path,"train",s))
+        for s in test_sequences_paths:
+            shutil.copytree(os.path.join(sequences_path,s),os.path.join(output_path,"test",s))
