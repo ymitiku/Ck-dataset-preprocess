@@ -145,6 +145,34 @@ def split_ck_dataset(dataset_path,emotion_path,output_path,max_emotion_images=0,
         split_ck_dataset_helper(test_sequences_paths,emotion_path,os.path.join(output_path,"test"),detector,max_emotion_images)
     else:
         for s in train_sequences_paths:
-            shutil.copytree(os.path.join(sequences_path,s),os.path.join(output_path,"train",s))
+            if not os.path.exists(os.path.join(emotion_path,s[1],s[2])):
+                continue
+            emotion_files = os.listdir(os.path.join(emotion_path,s[1],s[2]))
+            if len(emotion_files)==0:
+                continue
+            emotion_file = emotion_files[0]
+            emotion = np.loadtxt(os.path.join(emotion_path,s[1],s[2],emotion_file))
+            emotion = int(emotion)
+            if emotion == 2:
+                continue
+            emotion_string = EMOTIONS[emotion]
+            if not os.path.exists(os.path.join(output_path,"train",emotion_string)):
+                os.mkdir(os.path.join(output_path,"train",emotion_string))
+       
+            shutil.copytree(os.path.join(*s),os.path.join(output_path,"train",emotion_string,s[1]+"_"+s[2]))
         for s in test_sequences_paths:
-            shutil.copytree(os.path.join(sequences_path,s),os.path.join(output_path,"test",s))
+            if not os.path.exists(os.path.join(emotion_path,s[1],s[2])):
+                continue
+            emotion_files = os.listdir(os.path.join(emotion_path,s[1],s[2]))
+            if len(emotion_files)==0:
+                continue
+            emotion_file = emotion_files[0]
+            emotion = np.loadtxt(os.path.join(emotion_path,s[1],s[2],emotion_file))
+            emotion = int(emotion)
+            if emotion == 2:
+                continue
+            emotion_string = EMOTIONS[emotion]
+            if not os.path.exists(os.path.join(output_path,"test",emotion_string)):
+                os.mkdir(os.path.join(output_path,"test",emotion_string))
+       
+            shutil.copytree(os.path.join(*s),os.path.join(output_path,"test",emotion_string,s[1]+"_"+s[2]))

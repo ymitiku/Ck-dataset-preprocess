@@ -18,7 +18,7 @@ def get_cmd_args():
     parser.add_argument("-t","--test_size",default=0.2,type=float)
     parser.add_argument("-o","--output_path",default=None,type=str)
     parser.add_argument("-s","--sequence",default=False,type=bool)
-    parser.add_argument()
+
 
     args = parser.parse_args()
     return args
